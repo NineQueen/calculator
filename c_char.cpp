@@ -1,6 +1,7 @@
 #include "c_char.h"
 c_char::c_char(char ch){
 		this_char = ch;
+		type = -1;
 		switch(ch){
 				case '+':
 					type = 0;
@@ -31,6 +32,11 @@ c_char::c_char(char ch){
 					break;
 				case '%':
 					type = 9;
+					break;
+				case '@':
+					type = 10;
+				default:
+					throw "语句错误!按#重来,按其他键退出";
 					break;
 			}	
 }
