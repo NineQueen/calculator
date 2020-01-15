@@ -39,6 +39,9 @@ int main(){
 						snum.push(a*10+s[point]-'0');
 					}else{
 						snum.push(s[point]-'0');
+						if(snum.top()==0){
+							throw 0;
+						}
 					}
 					last = point;
 				}else{
@@ -120,8 +123,9 @@ int main(){
 			}else{
 				break;
 			}
-		}catch(int er){
-			break;
+		}catch(int m){
+			cout << "除数不能为0";
+			continue;
 		}
 	}
 	return 0;
