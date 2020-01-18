@@ -22,29 +22,40 @@ int main(){
 	while(true){
 		string s;
 		int last=-2;
-		int point = 0;	
-		stack<float> snum;
+		int point = 0;
+		double count = 1;
+		bool is_has = false;	
+		stack<double> snum;
 		stack<c_char> schar;
 		try{
 			cin >> s;
-			stack<float> snum;
-			stack<c_char> schar;
 			c_char end('\0');
 			schar.push(end);
 			while(point<=s.length()){
-				if('0'<=s[point]&&s[point]<='9'){
-					if(last==point-1){
-						int a = snum.top();
+				if(('0'<=s[point]&&s[point]<='9')){
+					if(last==point-1&&is_has==false){
+						double a = snum.top();
 						snum.pop();
 						snum.push(a*10+s[point]-'0');
+					}else if(is_has){
+						double a = snum.top();
+						snum.pop();
+						count = count * 0.1; 
+						snum.push(a+(s[point]-'0')*0.1);
 					}else{
 						snum.push(s[point]-'0');
 						if(snum.top()==0){
-							throw 0;
+							throw "除数不能为0";
 						}
 					}
 					last = point;
+				}else if(s[point]=='.'){
+					if(snum.empty()) throw "不能不输入数";
+					if(is_has) throw "不能有两个小数点";
+					is_has = true; 
 				}else{
+					if(snum.empty()) throw "不能不输入数";
+					is_has = false;
 					c_char now(s[point]);
 					switch(pri[schar.top().type][now.type]){
 						case '<':
@@ -55,9 +66,9 @@ int main(){
 							break;
 						case '>':
 							while(pri[schar.top().type][now.type]=='>'){
-								int q = snum.top();
+								double q = snum.top();
 								snum.pop();
-								int b;
+								double b;
 								switch(schar.top().type){
 									case 0:
 										b = snum.top();
@@ -86,15 +97,17 @@ int main(){
 										break;
 									case 5: 
 										b = 1;
+										if(int(q)!=q) throw "小数不能阶乘,我说的"; 
 										for(int i =1;i<=q;i++){
 										b = b*i;
 										}
 										snum.push(b);
 										break;
 									case 9:
+										if(int(q)!=q||int(b)!=b) throw "小数不能取余";
 										b = snum.top();
 										snum.pop();
-										snum.push(b%q);
+										snum.push(int(b)%int(q));
 										break;
 									case 6:
 									case 7:
@@ -115,17 +128,14 @@ int main(){
 			cout << snum.top()<<endl;
 			system("PAUSE");	
 		}catch(const char* msg){
-			cout << msg;
+			cout << msg<<" 按#退出,按其他键重来!(这个字符不参与运算)";
 			char a;
 			cin >> a;
 			if(a=='#'){
-				continue;
-			}else{
 				break;
+			}else{
+				continue;
 			}
-		}catch(int m){
-			cout << "除数不能为0";
-			continue;
 		}
 	}
 	return 0;

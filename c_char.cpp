@@ -36,7 +36,7 @@ c_char::c_char(char ch){
 				case '@':
 					type = 10;
 				default:
-					throw "语句错误!按#重来,按其他键退出";
+					throw "语句错误!";
 					break;
 			}	
 }
