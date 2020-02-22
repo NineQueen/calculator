@@ -37,22 +37,20 @@ int main(){
 						double a = snum.top();
 						snum.pop();
 						snum.push(a*10+s[point]-'0');
-					}else if(is_has){
+					}else if(last==point-1&&is_has){
 						double a = snum.top();
 						snum.pop();
 						count = count * 0.1; 
-						snum.push(a+(s[point]-'0')*0.1);
+						snum.push(a+(s[point]-'0')*count);
 					}else{
 						snum.push(s[point]-'0');
-						if(snum.top()==0){
-							throw "除数不能为0";
-						}
 					}
 					last = point;
 				}else if(s[point]=='.'){
 					if(snum.empty()) throw "不能不输入数";
 					if(is_has) throw "不能有两个小数点";
 					is_has = true; 
+					last = point;
 				}else{
 					if(snum.empty()) throw "不能不输入数";
 					is_has = false;
@@ -88,6 +86,9 @@ int main(){
 									case 3:
 										b = snum.top();
 										snum.pop();
+										if(q==0){
+											throw "除数不为零";
+										}
 										snum.push(b/q);
 										break;
 									case 4:
@@ -139,4 +140,4 @@ int main(){
 		}
 	}
 	return 0;
-} 
+}
