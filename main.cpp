@@ -3,6 +3,7 @@
 #include<cstring>
 #include<cmath>
 #include<stack>
+#include<stdio.h>
 #include "c_char.h"
 using namespace std;
 char pri[10][10]={
@@ -20,13 +21,14 @@ char pri[10][10]={
 };
 int main(){
 	while(true){
+		bool first = false;
 		string s;
 		int last=-2;
 		int point = 0;
-		double count = 1;
 		bool is_has = false;	
 		stack<double> snum;
 		stack<c_char> schar;
+		double count = 1;
 		try{
 			cin >> s;
 			c_char end('\0');
@@ -37,10 +39,10 @@ int main(){
 						double a = snum.top();
 						snum.pop();
 						snum.push(a*10+s[point]-'0');
-					}else if(last==point-1&&is_has){
+					}else if(is_has){
 						double a = snum.top();
 						snum.pop();
-						count = count * 0.1; 
+						count = count * 0.1;
 						snum.push(a+(s[point]-'0')*count);
 					}else{
 						snum.push(s[point]-'0');
@@ -51,10 +53,12 @@ int main(){
 					if(is_has) throw "不能有两个小数点";
 					is_has = true; 
 					last = point;
+					count = 1;
 				}else{
-					if(snum.empty()) throw "不能不输入数";
 					is_has = false;
 					c_char now(s[point]);
+					if(snum.empty()&&now.this_char!='('&&now.this_char!='-') throw "不能不输入数";
+					if(now.this_char=='-'&&snum.empty()) snum.push(0);
 					switch(pri[schar.top().type][now.type]){
 						case '<':
 							schar.push(now);
