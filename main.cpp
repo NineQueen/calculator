@@ -55,10 +55,24 @@ int main(){
 					last = point;
 					count = 1;
 				}else{
+					if(first == true&&s[point-1]>='0'&&s[point-1]<='9'){
+						double mi = snum.top();
+						snum.pop();
+						mi = -mi;
+						snum.push(mi);
+					}
+					first = false;
 					is_has = false;
 					c_char now(s[point]);
 					if(snum.empty()&&now.this_char!='('&&now.this_char!='-') throw "不能不输入数";
-					if(now.this_char=='-'&&snum.empty()) snum.push(0);
+					if(now.this_char=='-'&&(last!=point-1||snum.empty()==true)){
+						first = !first;
+						point++;
+						continue;
+					}
+					if(now.this_char!='('&&s[point-1]!=')'&&!(s[point-1]>='0'&&s[point-1]<='9')){
+						throw "算式不合法";
+					}
 					switch(pri[schar.top().type][now.type]){
 						case '<':
 							schar.push(now);
