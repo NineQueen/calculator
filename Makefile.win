@@ -4,8 +4,9 @@
 CPP      = g++.exe -D__DEBUG__
 CC       = gcc.exe -D__DEBUG__
 WINDRES  = windres.exe
-OBJ      = main.o c_char.o
-LINKOBJ  = main.o c_char.o
+RES      = 數呾ん_private.res
+OBJ      = main.o c_char.o $(RES)
+LINKOBJ  = main.o c_char.o $(RES)
 LIBS     = -L"D:/Dev-Cpp/MinGW64/lib" -L"D:/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib" -static-libgcc -g3
 INCS     = -I"D:/Dev-Cpp/MinGW64/include" -I"D:/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"D:/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include"
 CXXINCS  = -I"D:/Dev-Cpp/MinGW64/include" -I"D:/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"D:/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include" -I"D:/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++"
@@ -29,3 +30,7 @@ main.o: main.cpp
 
 c_char.o: c_char.cpp
 	$(CPP) -c c_char.cpp -o c_char.o $(CXXFLAGS)
+
+數呾ん_private.res: 數呾ん_private.rc 
+	$(WINDRES) -i 數呾ん_private.rc --input-format=rc -o 數呾ん_private.res -O coff 
+

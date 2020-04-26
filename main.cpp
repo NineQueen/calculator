@@ -64,7 +64,7 @@ int main(){
 					first = false;
 					is_has = false;
 					c_char now(s[point]);
-					if(snum.empty()&&now.this_char!='('&&now.this_char!='-') throw "不能不输入数";
+					if(snum.empty()&&now.this_char!='('&&now.this_char!='-') throw "不能不输入数"; 
 					if(now.this_char=='-'&&(last!=point-1||snum.empty()==true)){
 						first = !first;
 						point++;
@@ -73,10 +73,17 @@ int main(){
 					if(now.this_char!='('&&s[point-1]!=')'&&!(s[point-1]>='0'&&s[point-1]<='9')){
 						throw "算式不合法";
 					}
+					//核心，判断优先级
+					//pri的数组的第一个括号，是栈顶数据，第二个，是当前数据
+					//如果栈顶数据和当前数据的符号一样或者低，就说明栈内可以进行运算(>)
+					//如果当前数据的优先级比栈顶符号高，就说明还不能运算，需要等到这个式子出现(<)
+					//更低的优先级的符号才可以一次计算
+					//如果栈顶数据为'\0',就说明当前栈内没有数据(这个为一开始存储的end对象)(<)
+					//如果栈顶为(并且当前为)说明括号内的东西已经算完了(=),就把这个(弹出就好了 
 					switch(pri[schar.top().type][now.type]){
 						case '<':
 							schar.push(now);
-							break;
+							break; 
 						case '=':
 							schar.pop();
 							break;
@@ -134,8 +141,10 @@ int main(){
 										break;
 									}
 								schar.pop();
-								if(schar.top().type==6)
-									schar.pop(); 
+								if(now.type==7&&schar.top().type==6){
+									schar.pop();
+								} 
+									 
 							}
 							if(now.this_char!=')'){
 								schar.push(now);
@@ -145,10 +154,10 @@ int main(){
 				point++;
 			}
 			cout << snum.top()<<endl;
-			system("PAUSE");	
+			system("PAUSE");
 		}catch(const char* msg){
 			cout << msg<<" 按#退出,按其他键重来!(这个字符不参与运算)";
-			char a;
+			char a; 
 			cin >> a;
 			if(a=='#'){
 				break;

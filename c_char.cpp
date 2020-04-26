@@ -1,6 +1,7 @@
 #include "c_char.h"
 c_char::c_char(char ch){
 		this_char = ch;
+		//¿‡–Õ 
 		type = -1;
 		switch(ch){
 				case '+':
