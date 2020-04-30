@@ -70,7 +70,7 @@ int main(){
 						point++;
 						continue;
 					}
-					if(now.this_char!='('&&s[point-1]!=')'&&!(s[point-1]>='0'&&s[point-1]<='9')){
+					if(now.this_char!='('&&s[point-1]!=')'&&s[point-1]!='!'&&!(s[point-1]>='0'&&s[point-1]<='9')){
 						throw "算式不合法";
 					}
 					//核心，判断优先级
